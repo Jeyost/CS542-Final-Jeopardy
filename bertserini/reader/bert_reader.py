@@ -131,6 +131,7 @@ class BERT(Reader):
             all_answers.append(Answer(
                 text=nbest[ans][0]["text"],
                 score=nbest[ans][0]["start_logit"] + nbest[ans][0]["end_logit"],
+                metadata = {'context': contexts[idx]},
                 ctx_score=contexts[idx].score,
                 language=question.language
             ))
