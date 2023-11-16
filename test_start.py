@@ -7,13 +7,13 @@ args.tokenizer_name = "rsvp-ai/bertserini-bert-base-squad"
 bert_reader = BERT(args)
 
 # Here is our question:
-question = Question("Who was the president in 2014")
+question = Question("What is the meaning of life?")
 
 # Option 1: fetch some contexts from Wikipedia with Pyserini
 from bertserini.retriever.pyserini_retriever import retriever, build_searcher
-args.index_path = "./indexes/lucene-index.enwiki-20180701-paragraphs"
+args.index_path = "/s/bach/b/class/cs542/cs542a/indexes/lucene-index.enwiki-20180701-paragraphs"
 searcher = build_searcher(args)
-contexts = retriever(question, searcher, 10)
+contexts = retriever(question, searcher, 3)
 
 # Option 2: hard-coded contexts
 #contexts = [Context('The "Gilded Age" was a term that Mark Twain used to describe the period of the late 19th century when there had been a dramatic expansion of American wealth and prosperity.')]
