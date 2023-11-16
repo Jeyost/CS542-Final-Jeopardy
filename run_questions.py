@@ -33,10 +33,10 @@ def answer_questions(questions,logger,csv_file, csv_writer):
     searcher = build_searcher(args)    
     total_num_questions = len(questions) 
     for i,  question in enumerate(questions):
-        if i %1000 == 0: logger.info(f"Working on {i}/{total_num_questions}: percent done: {i/total_num_questions}%")
+        if i % 1000 == 0: logger.info(f"Working on {i}/{total_num_questions}: percent done: {i/total_num_questions}%")
         answer = answer_a_question(Question(question[OUR_DATA_QUESTION]), bert_reader, searcher)
         write_question_answer_to_csv(question,answer,csv_file,csv_writer)
-        break
+
 
 
 def answer_a_question(question, bert_reader, searcher):
@@ -45,9 +45,9 @@ def answer_a_question(question, bert_reader, searcher):
     return get_best_answer(candidates, 0.45)
 
 def write_question_answer_to_csv(question, answer, csv_file, cvs_writer):
-    correct = answer.text in question[OUR_DATA_ANSWER]
+    correct = (answer.text in question[OUR_DATA_ANSWER] and answer.text != "") or (question[OUR_DATA_ANSWER] in answer.text and answer.text != "" )
     row = [question[OUR_DATA_SEASON],question[OUR_DATA_CLUE_VALUE],question[OUR_DATA_CATEGORY],question[OUR_DATA_QUESTION], 
-           None if answer.text =="" else answer.text,question[OUR_DATA_ANSWER], correct, answer.metadata['context']]
+           None if answer.text =="" else answer.text,question[OUR_DATA_ANSWER], correct, answer.metadata['context'].text]
     cvs_writer.writerow(row)
     csv_file.flush()
 
@@ -62,7 +62,7 @@ def load_data():
                 print(season_number)
                 for line in season.readlines()[1:]:
                     question =  line.split('\t')
-                    questions.append([season_number, question[DATA_CLUE_VALUE], question[DATA_CATEGORY], question[DATA_QUESTION], question[DATA_ANSWER]])
+                    questions.append([season_number, question[DATA_CLUE_VALUE], question[DATA_CATEGORY], question[DATA_ANSWER],question[DATA_QUESTION]])
    return questions
 
 

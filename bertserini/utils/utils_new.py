@@ -12,7 +12,7 @@ def get_best_answer(candidates, weight=0.5):
         return Answer(
                 text="",
                 score=0,
-                metadata = {'context': "No context"},
+                metadata = {'context': Context("No Context")},
             )
     for ans in candidates:
         ans.aggregate_score(weight)
