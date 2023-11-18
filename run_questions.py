@@ -21,19 +21,20 @@ def main(logger):
         csv_writer = csv.writer(csvfile)
         if not file_exists:
             csv_writer.writerow(CSV_HEADER)
-        answer_questions(data[num_rows:], logger,csvfile,csv_writer)
+        answer_questions(data[num_rows:], logger,csvfile,csv_writer,num_rows)
 
     
 
-def answer_questions(questions,logger,csv_file, csv_writer):
+def answer_questions(questions,logger,csv_file, csv_writer,num_rows):
     args.model_name_or_path = "rsvp-ai/bertserini-bert-base-squad"
     args.tokenizer_name = "rsvp-ai/bertserini-bert-base-squad"
     bert_reader = BERT(args)
     args.index_path = LUCENE_INDEX
     searcher = build_searcher(args)    
-    total_num_questions = len(questions) 
+    total_num_questions = len(questions) + num_rows
     for i,  question in enumerate(questions):
-        if i % 1000 == 0: logger.info(f"Working on {i}/{total_num_questions}: percent done: {i/total_num_questions}%")
+        i= i+ num_rows
+        if i % 100 == 0: logger.info(f"Working on {i}/{total_num_questions}: percent done: {(i/total_num_questions)*100}%")
         answer = answer_a_question(Question(question[OUR_DATA_QUESTION]), bert_reader, searcher)
         write_question_answer_to_csv(question,answer,csv_file,csv_writer)
 
