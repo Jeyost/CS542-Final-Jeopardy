@@ -1,3 +1,7 @@
+# CS 542 FA 2023 Term Project
+
+James Yost, Yanye Luther, Lindsey Nielsen
+
 ### This Repo is built off of the [BERTserini repo](https://github.com/rsvp-ai/bertserini) We altered it where needed for our use
 
 Below is their readme
