@@ -1,3 +1,9 @@
+### This Repo is built off of the [BERTserini repo](https://github.com/rsvp-ai/bertserini) We altered it where needed for our use
+
+Below is their readme
+
+
+
 # BERTserini
 
 
